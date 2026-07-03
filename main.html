@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorrnaakka...</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      font-family: system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+
+    /* === Countdown Blast Layer === */
+    .countdown {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .countdown.hide {
+      opacity: 0;
+      transform: scale(1.5);
+      pointer-events: none;
+    }
+    .count-num {
+      color: aquamarine;
+      font-size: clamp(6rem, 25vw, 12rem);
+      font-weight: 900;
+      text-shadow: 0 0 30px aquamarine;
+      animation: pop 1s ease;
+    }
+    @keyframes pop {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* === Confetti Layer === */
+    .confetti-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      overflow: hidden;
+    }
+    .confetti {
+      position: absolute;
+      top: -10px;
+      width: 8px;
+      height: 8px;
+      opacity: 0.9;
+      animation: fall 3.2s linear forwards;
+    }
+    .confetti.square { border-radius: 2px; }
+    .confetti.circle { border-radius: 50%; }
+    .confetti.rect { width: 6px; height: 12px; }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110dvh) rotate(720deg); opacity: 0.2; }
+    }
+
+    /* === Main Content === */
+    .container {
+      width: 100%;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* All hidden by default. We add .show with JS after blast */
+    #msg1, #img1, #msg2, #msg3 {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    .show { 
+      animation: fadeUp 1s ease forwards; 
+    }
+
+    #msg1 {
+      color: aquamarine;
+      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      font-weight: 700;
+      text-align: center;
+    }
+    #img1 {
+      border-radius: 12px;
+      width: 260px;
+    }
+    #msg2 {
+      color: aquamarine;
+      font-size: clamp(2rem, 7vw, 3.2rem);
+      font-weight: 800;
+      text-align: center;
+    }
+    #msg3 {
+      color: aquamarine;
+      background: transparent;
+      border: 2px solid aquamarine;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: clamp(1rem, 4vw, 1.2rem);
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    #msg3:active {
+      background: aquamarine;
+      color: black;
+      transform: scale(0.97);
+    }
+    a { text-decoration: none; }
+
+    @keyframes fadeUp { 
+      to { opacity: 1; transform: translateY(0) } 
+    }
+  </style>
+</head>
+<body>
+  <div class="countdown" id="countdown">
+    <div class="count-num" id="countNum">3</div>
+  </div>
+
+  <div class="confetti-layer" id="confetti"></div>
+
+  <div class="container">
+    <header id="msg1">unga Birthday...</header>
+    <img id="img1" src="/statics/moon1.png" height="200px" width="165px"/>
+    <h2 id="msg2">Happy Birthday Sorrnaakka 🎂🎉</h2>
+    <a href="main2.html"><button id="msg3">View What you got</button></a>
+  </div>
+
+  <script>
+    const colors = ['#ff595e','#ffca3a','#8ac926','#1982c4','#6a4c93','#ff9248','#ffffff'];
+    const shapes = ['square','circle','rect'];
+    const confettiWrap = document.getElementById('confetti');
+
+    function burstConfetti(count = 60) {
+      for(let i = 0; i < count; i++){
+        const el = document.createElement('div');
+        el.className = 'confetti ' + shapes[Math.floor(Math.random()*shapes.length)];
+        el.style.left = Math.random()*100 + 'vw';
+        el.style.background = colors[Math.floor(Math.random()*colors.length)];
+        el.style.animationDelay = Math.random()*0.2 + 's';
+        el.style.animationDuration = 3.8 + Math.random()*2.8 + 's';
+        confettiWrap.appendChild(el);
+        setTimeout(() => el.remove(), 4200);
+      }
+    }
+
+    // === 3..2..1 + Staged Reveal ===
+    const countNum = document.getElementById('countNum');
+    const countdown = document.getElementById('countdown');
+    let n = 3;
+
+    const timer = setInterval(() => {
+      n--;
+      if(n > 0){
+        countNum.textContent = n;
+        countNum.style.animation = 'none';
+        void countNum.offsetWidth;
+        countNum.style.animation = 'pop 1s ease';
+      } else {
+        clearInterval(timer);
+        countNum.textContent = '🎉';
+        burstConfetti(120); // Big BOOM
+        countdown.classList.add('hide');
+        
+        // Step-by-step reveal after blast
+        setTimeout(() => {
+          countdown.remove();
+          
+          document.getElementById('msg1').classList.add('show'); // 0.0s
+          
+          setTimeout(() => {
+            document.getElementById('img1').classList.add('show'); // +0.6s
+            burstConfetti(70); // 1st confetti batch
+          }, 600);
+          
+          setTimeout(() => {
+            document.getElementById('msg2').classList.add('show'); // +1.2s
+          }, 1200);
+          
+          setTimeout(() => {
+            document.getElementById('msg3').classList.add('show'); // +1.8s
+            burstConfetti(50); // 2nd confetti batch = ~50% of first fall
+          }, 1800);
+          
+        }, 600); // wait for countdown to fade
+      }
+    }, 2000);
+  </script>
+</body>
+</html>

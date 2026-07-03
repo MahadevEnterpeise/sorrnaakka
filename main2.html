@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+
+<html lang="ta">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>For My Sorrnaakka 👑</title>
+
+<style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+
+width: 100%;
+
+min-height: 100dvh;
+
+background-color: black;
+
+font-family: system-ui, -apple-system, sans-serif;
+
+color: aquamarine;
+
+overflow-x: hidden;
+
+}
+
+
+/* Header with Typing Effect */
+
+header {
+
+text-align: center;
+
+padding: 30px 20px;
+
+display: flex;
+
+justify-content: center;
+
+align-items: center;
+
+}
+
+header h1 {
+
+font-size: clamp(2.5rem, 8vw, 4rem);
+
+font-weight: 800;
+
+letter-spacing: 2px;
+
+white-space: nowrap;
+
+overflow: hidden;
+
+border-right: 4px solid aquamarine; /* The typing cursor */
+
+width: 0;
+
+/* Changed to forwards so it stops at the end, running only once */
+
+animation: 
+  typing 1.5s steps(13, end) forwards,
+  blink-cursor 0.75s step-end infinite;
+
+}
+
+
+/* Hero with firecracker video bg */
+
+.hero {
+
+position: relative;
+
+width: 100%;
+
+height: 100dvh;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+overflow: hidden;
+
+perspective: 1000px; /* Added for 3D depth */
+
+}
+
+.hero video {
+
+position: absolute;
+
+top: 0; left: 0;
+
+width: 100%;
+
+height: 90%;
+
+object-fit: cover;
+
+z-index: 1;
+
+filter: brightness(0.5); /* dark overlay so text reads */
+
+}
+
+/* Modified for 3D flip behavior */
+
+.hero-content {
+
+text-align: center;
+
+padding: 20px;
+
+max-width: 700px;
+
+z-index: 2; /* Increased to allow clicking over background video elements */
+
+animation: fadeUp 1.5s ease;
+
+position: relative;
+
+transform-style: preserve-3d;
+
+transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+cursor: pointer;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+min-height: 250px;
+
+width: 100%;
+
+-webkit-transform: translateZ(0); /* Hardware acceleration */
+
+transform: translateZ(0);
+
+}
+
+/* Class triggered on click to flip the card */
+
+.hero-content.flipped, .photo-card.flipped {
+
+transform: rotateY(180deg) !important;
+
+}
+
+/* Modified to act as the back side of the card */
+
+.hero-content p {
+
+font-size: clamp(1.1rem, 3vw, 1.5rem);
+
+line-height: 1.8;
+
+font-weight: 500;
+
+position: absolute;
+
+backface-visibility: hidden;
+
+-webkit-backface-visibility: hidden;
+
+transform: rotateY(180deg);
+
+padding: 20px;
+
+}
+
+
+/* 6 small photos grid */
+
+.photo-grid {
+
+display: grid;
+
+grid-template-columns: repeat(3, 1fr);
+
+gap: 15px;
+
+max-width: 900px;
+
+margin: 80px auto;
+
+padding: 0 20px;
+
+}
+
+.photo-box {
+
+width: 100%;
+
+aspect-ratio: 1/1;
+
+border: 2px solid aquamarine;
+
+border-radius: 12px;
+
+background: #0a0a0a;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+overflow: hidden;
+
+animation: fadeUp 0.8s ease forwards;
+
+opacity: 0;
+
+perspective: 1000px; /* Individual 3D perspective space per box */
+
+}
+
+.photo-box:nth-child(1) { animation-delay: 0.1s; }
+
+.photo-box:nth-child(2) { animation-delay: 0.2s; }
+
+.photo-box:nth-child(3) { animation-delay: 0.3s; }
+
+.photo-box:nth-child(4) { animation-delay: 0.4s; }
+
+.photo-box:nth-child(5) { animation-delay: 0.5s; }
+
+.photo-box:nth-child(6) { animation-delay: 0.6s; }
+
+.photo-box:hover {
+
+border-color: #7fffd4;
+
+box-shadow: 0 0 15px rgba(127, 255, 212, 0.3);
+
+}
+
+/* The actual 3D flipping container inside the grid cell */
+
+.photo-card {
+
+width: 150px;            /* Exact width matching .front setup */
+
+height: 200px;           /* Exact height matching .front setup */
+
+position: relative;
+
+transform-style: preserve-3d;
+
+transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+cursor: pointer;
+
+}
+
+/* Front & Back configurations directly imitating the .front sizing */
+
+.photo-front, .photo-back {
+
+position: absolute;
+
+width: 100%;
+
+height: 100%;
+
+top: 0;
+
+left: 0;
+
+backface-visibility: hidden;
+
+-webkit-backface-visibility: hidden;
+
+border-radius: 12px;
+
+overflow: hidden;
+
+}
+
+.photo-front img {
+
+width: 150px;
+
+height: 200px;
+
+object-fit: cover;
+
+display: block;
+
+}
+
+.photo-back {
+
+transform: rotateY(180deg);
+
+background: #0d0d0d;
+
+border: 2px solid aquamarine; /* Gives the text card a clean layout frame */
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+padding: 10px;
+
+text-align: center;
+
+}
+
+.photo-back p {
+
+font-size: clamp(0.8rem, 2vw, 1.1rem);
+
+line-height: 1.4;
+
+font-weight: 500;
+
+color: aquamarine;
+
+}
+
+
+/* One line + group photo */
+
+.final-section {
+
+text-align: center;
+
+padding: 60px 20px 100px;
+
+}
+
+.final-section p {
+
+font-size: clamp(1.3rem, 4vw, 1.8rem);
+
+font-weight: 700;
+
+margin-bottom: 30px;
+
+animation: fadeIn 1s ease 0.5s both;
+
+}
+
+.group-photo {
+
+max-width: 700px;
+
+margin: 0 auto;
+
+border: 3px solid aquamarine;
+
+border-radius: 20px;
+
+overflow: hidden;
+
+animation: fadeUp 1s ease 0.8s both;
+
+}
+
+.group-photo img {
+
+width: 100%;
+
+display: block;
+
+}
+
+#btn{
+
+width: 200px;
+
+padding: 20px;
+
+background-color: aliceblue;
+
+border-radius: 12px;
+
+text-decoration: none;
+
+color: #2f0fd7;
+
+font-size: xx-large;
+
+}
+
+.smallone{
+
+transform: scale(1.3);
+
+}
+
+/* Modified to act as the front side of the card */
+
+.front{
+
+height: 200px; /* Matched image height to prevent clipping */
+
+width: 150px;
+
+border-radius: 12px;
+
+margin-top: 0;
+
+position: absolute;
+
+backface-visibility: hidden;
+
+-webkit-backface-visibility: hidden;
+
+}
+
+.front img{
+
+height: 200px;
+
+width: 150px;
+
+border-radius: 12px;
+
+}
+
+
+/* Typing Animation (Modified to add space and run once) */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 12.5ch } /* Added an extra half-character space for padding */
+}
+
+@keyframes blink-cursor {
+  from, to { border-color: transparent }
+  50% { border-color: aquamarine; }
+}
+
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(40px) } to { opacity: 1; transform: translateY(0) } }
+
+
+@media (max-width: 600px) {
+
+.photo-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+header { padding: 20px 16px; }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header>
+
+<h1>Sorrnaakka 👑</h1>
+
+</header>
+
+
+<section class="hero">
+
+<video src="/statics/intro_v2.mp4" autoplay muted loop playsinline>
+
+</video>
+
+<div class="hero-content">
+
+<div class="front"><img src="/statics/small1.jpg" alt=""/></div>
+
+<p>
+
+You are not just my akka. You are my safe place, my biggest supporter, and the one who makes every ordinary day feel special. 
+
+This is for you - because you deserve all the light in the world.
+
+</p>
+
+</div>
+
+</section>
+
+
+<section class="photo-grid">
+
+<div class="photo-box">
+  <div class="photo-card">
+    <div class="photo-front"><img src="/statics/small2.jpg" alt=""></div>
+    <div class="photo-back"><p>Sattiyoooda sernthu karandiyaga irukkum akkavuku வாழ்த்துக்கள்🙃</p></div>
+  </div>
+</div>
+
+<div class="photo-box">
+  <div class="photo-card">
+    <div class="photo-front"><img src="/statics/small3.jpg" alt=""></div>
+    <div class="photo-back"><p>Happy birthday visar புடிச்ச எருமை மாடு 😅😅😅</p></div>
+  </div>
+</div>
+
+<div class="photo-box">
+  <div class="photo-card">
+    <div class="photo-front"><img src="/statics/small4.jpg" alt=""></div>
+    <div class="photo-back"><p>Insert text here for photo 4</p></div>
+  </div>
+</div>
+
+<div class="photo-box">
+  <div class="photo-card">
+    <div class="photo-front"><img class="smallone" src="/statics/small5.jpg" alt=""></div>
+    <div class="photo-back"><p>Happy birthday my lovely sister🤗</p></div>
+  </div>
+</div>
+
+<div class="photo-box">
+  <div class="photo-card">
+    <div class="photo-front"><img src="/statics/small6_0.jpg" alt=""></div>
+    <div class="photo-back"><p>Happy birthday, wishing you great things✨</p></div>
+  </div>
+</div>
+
+<div class="photo-box">
+  <div class="photo-card">
+    <div class="photo-front"><img src="/statics/small7.jpg" alt=""></div>
+    <div class="photo-back"><p>Proud brother : wishing you happy birthday!🥳Always looking out for you, sister....</p></div>
+  </div>
+</div>
+
+</section>
+
+
+<section class="final-section">
+
+<p>With you, every moment becomes a memory worth keeping 📸❤️</p>
+
+<div class="group-photo">
+
+<img src="/statics/group.jpg" alt="us">
+
+</div>
+
+<a id="btn" href="main3.html">With You</a>
+
+</section>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Hero click flip
+  const heroCard = document.querySelector('.hero-content');
+  if (heroCard) {
+    heroCard.addEventListener('click', function() {
+      this.classList.toggle('flipped');
+    });
+  }
+
+  // Grid items card click flip
+  const photoCards = document.querySelectorAll('.photo-card');
+  photoCards.forEach(card => {
+    card.addEventListener('click', function(e) {
+      e.stopPropagation(); // Prevents layout bubbling issues
+      this.classList.toggle('flipped');
+    });
+  });
+});
+</script>
+
+</body>
+
+</html>

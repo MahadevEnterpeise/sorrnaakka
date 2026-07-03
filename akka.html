@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For My Akka 💜</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --accent: aquamarine;
+      --bg: #000;
+    }
+
+    body {
+      min-height: 100dvh;
+      background: 
+        radial-gradient(800px 600px at 80% -20%, rgba(127,255,212,0.08), transparent 60%),
+        radial-gradient(600px 600px at 10% 120%, rgba(127,255,212,0.06), transparent 60%),
+        var(--bg);
+      color: var(--accent);
+      font-family: system-ui, -apple-system, sans-serif;
+      display: grid;
+      place-items: center;
+      padding: 40px 16px;
+      overflow-x: hidden;
+    }
+
+    .wrap {
+      width: min(100%, 980px);
+      display: grid;
+      gap: 40px;
+      text-align: center;
+    }
+
+    /* === Header Text === */
+    .title {
+      font-size: clamp(2.2rem, 7vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      opacity: 0;
+      animation: rise 1s ease 0.2s forwards;
+    }
+    
+    .para {
+      font-size: clamp(1.05rem, 3.2vw, 1.3rem);
+      line-height: 1.8;
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0;
+      animation: rise 1s ease 0.5s forwards;
+    }
+
+    /* === 4 Image Showcase === */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .photo {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      aspect-ratio: 1/1.15;
+      background: #0b0b0b;
+      border: 1px solid rgba(127,255,212,0.18);
+      box-shadow: 
+        0 8px 24px rgba(0,0,0,0.5),
+        inset 0 0 0 1px rgba(127,255,212,0.05);
+      opacity: 0;
+      transform: translateY(50px) rotateX(10deg);
+      animation: cardIn 1s cubic-bezier(.2,.9,.2,1) forwards;
+    }
+    /* Stagger + 3D tilt on hover */
+    .photo:nth-child(1){ animation-delay: 0.8s; }
+    .photo:nth-child(2){ animation-delay: 1.0s; }
+    .photo:nth-child(3){ animation-delay: 1.2s; }
+    .photo:nth-child(4){ animation-delay: 1.4s; }
+    
+    .photo:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 16px 40px rgba(127,255,212,0.15);
+    }
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 1.2s ease;
+      animation: softZoom 8s ease-in-out infinite alternate;
+    }
+    .photo:hover img { transform: scale(1.08); }
+
+    /* soft glow bottom */
+    .photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.45));
+    }
+
+    .back {
+      justify-self: center;
+      margin-top: 10px;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      background: transparent;
+      padding: 12px 26px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      opacity: 0;
+      animation: rise 1s ease 1.8s forwards;
+      transition: all 0.25s ease;
+    }
+    .back:hover {
+      background: var(--accent);
+      color: var(--bg);
+      box-shadow: 0 0 20px rgba(127,255,212,0.4);
+    }
+
+    /* === Keyframes === */
+    @keyframes rise { 
+      from { opacity: 0; transform: translateY(30px); transform: translateX(50px); }
+      to { opacity: 1; transform: translateY(0); } 
+    }
+    @keyframes cardIn { 
+      from { opacity: 0; transform: translateY(50px) rotateX(60deg); }
+      to { opacity: 1; transform: translateY(0) rotateX(0); } 
+    }
+    @keyframes softZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
+
+    /* Mobile 1 column */
+    @media (max-width: 640px) {
+      .gallery { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div>
+      <h1 class="title">Sorrnaakka ᯓᡣ𐭩</h1>
+      <p class="para">
+        Unga sirippu dhaan akka enaku periya gift. Neangalum unga kooda irukura ellarum epovum 
+        sandhosham ah irukanum. Intha naal ungalku mattum dhan, full ah ungalku 🎂✨ 
+        Thank you for being you always.
+      </p>
+    </div>
+
+    <div class="gallery">
+      <div class="photo"><img src="/statics/akka1.jpg" alt="Akka 1"></div>
+      <div class="photo"><img src="/statics/akka2.jpg" alt="Akka 2"></div>
+      <div class="photo"><img src="/statics/akka3.jpg" alt="Akka 3"></div>
+      <div class="photo"><img src="/statics/akka4.jpg" alt="Akka 4"></div>
+    </div>
+
+    <a href="main2.html" class="back">← Back</a>
+  </div>
+</body>
+</html>

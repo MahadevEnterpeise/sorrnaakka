@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorrnaakka...</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      font-family: system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      padding: 20px;
+    }
+
+    header h2 {
+      color: aquamarine;
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      font-weight: 700;
+      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 3px solid aquamarine;
+      width: 0;
+      animation: 
+        typing 3s steps(26, end) forwards, /* "indaiku mukiyamana naalu" = 26 chars */
+        blink 0.7s step-end infinite;
+    }
+
+    button {
+      padding: 14px 28px;
+      border-radius: 8px;
+      border: 2px solid aquamarine;
+      background: transparent;
+      color: aquamarine;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeIn 0.5s ease 3.1s forwards; /* shows after typing */
+      transition: 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    button:active {
+      background: aquamarine;
+      color: black;
+      transform: scale(0.97);
+    }
+
+    @keyframes typing { from { width: 0 } to { width: 100% } }
+    @keyframes blink { 50% { border-color: transparent } }
+    @keyframes fadeIn { to { opacity: 1 } }
+
+    @media (max-width: 480px) {
+      .container { padding: 16px; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header><h2>indaiku mukiyamana naalu</h2></header>
+    <a href="intro3.html"><button>eana naalu?</button></a>
+  </div>
+</body>
+</html>
